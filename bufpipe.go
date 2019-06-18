@@ -29,8 +29,8 @@ type PipeWriter struct {
 // New creates a synchronous pipe using buf as its initial contents. It can be
 // used to connect code expecting an io.Reader with code expecting an io.Writer.
 //
-// Unlike io.Pipe, Writes never blocks because the internal buffer has variable
-// size. Reads blocks only when the buffer is empty.
+// Unlike io.Pipe, writes never block because the internal buffer has variable
+// size. Reads block only when the buffer is empty.
 //
 // It is safe to call Read and Write in parallel with each other or with Close.
 // Parallel calls to Read and parallel calls to Write are also safe: the
