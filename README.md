@@ -1,5 +1,7 @@
 # bufpipe: Buffered Pipe
 
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/acomagu/bufpipe)
+
 The buffered version of io.Pipe. It's safe for concurrent use.
 
 ## How does it differ from io.Pipe?
