@@ -56,7 +56,7 @@ func New(buf []byte) (*PipeReader, *PipeWriter) {
 // reading from the internal buffer, otherwise blocking until a writer arrives
 // or the write end is closed. If the write end is closed with an error, that
 // error is returned as err; otherwise err is io.EOF.
-func (r *PipeReader) Read(data []byte) (nn int, ee error) {
+func (r *PipeReader) Read(data []byte) (int, error) {
 	r.cond.L.Lock()
 	defer r.cond.L.Unlock()
 
