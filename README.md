@@ -15,6 +15,8 @@ io.Copy(os.Stdout, r)
 // Output: abcdef
 ```
 
+[Playground](https://play.golang.org/p/PdyBAS3pVob)
+
 ## How does it differ from bytes.Buffer?
 
 Reads block if the internal buffer is empty until the writer is closed.
@@ -34,3 +36,5 @@ w.Close()
 <-done
 // Output: abcdef
 ```
+
+[Playground](https://play.golang.org/p/UppmyLeRgX6)
