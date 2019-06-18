@@ -3,6 +3,7 @@ package bufpipe_test
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"sort"
 	"testing"
 	"time"
@@ -10,6 +11,19 @@ import (
 	"github.com/acomagu/bufpipe"
 	"github.com/matryer/is"
 )
+
+func TestPipeWriter_NoBlocking(t *testing.T) {
+	is := is.New(t)
+
+	r, w := bufpipe.New(nil)
+	io.WriteString(w, "abc")
+	io.WriteString(w, "def")
+	w.Close()
+
+	b, err := ioutil.ReadAll(r)
+	is.NoErr(err)
+	is.Equal(b, []byte("abcdef"))
+}
 
 func TestMultiBlocking(t *testing.T) {
 	is := is.New(t)
