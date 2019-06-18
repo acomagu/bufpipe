@@ -74,7 +74,7 @@ RETRY:
 }
 
 // Close closes the reader; subsequent writes from the write half of the pipe
-// will return error io.ErrClosedPipe.
+// will return error ErrClosedPipe.
 func (r *PipeReader) Close() error {
 	return r.CloseWithError(nil)
 }
@@ -94,7 +94,7 @@ func (r *PipeReader) CloseWithError(err error) error {
 
 // Write implements the standard Write interface: it writes data to the internal
 // buffer. If the read end is closed with an error, that err is returned as err;
-// otherwise err is io.ErrClosedPipe.
+// otherwise err is ErrClosedPipe.
 func (w *PipeWriter) Write(data []byte) (int, error) {
 	w.cond.L.Lock()
 	defer w.cond.L.Unlock()
