@@ -21,10 +21,16 @@ Reads block if the internal buffer is empty until the writer is closed.
 
 ```Go
 r, w := bufpipe.New(nil)
-go io.Copy(os.Stdout, r) // The reads block until the writer is closed.
+
+done := make(chan struct{})
+go func() {
+	io.Copy(os.Stdout, r) // The reads block until the writer is closed.
+	done <- struct{}{}
+}()
 
 io.WriteString(w, "abc")
 io.WriteString(w, "def")
 w.Close()
+<-done
 // Output: abcdef
 ```
