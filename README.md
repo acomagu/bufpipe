@@ -2,7 +2,7 @@
 
 The buffered version of io.Pipe. It's safe for concurrent use.
 
-## How different from io.Pipe?
+## What is the difference from io.Pipe?
 
 Writes never block because the pipe has variable-sized buffer.
 
@@ -15,7 +15,7 @@ io.Copy(os.Stdout, r)
 // Output: abcdef
 ```
 
-## How different from bytes.Buffer?
+## What is the difference from bytes.Buffer?
 
 Reads block if the internal buffer is empty until the writer is closed.
 
