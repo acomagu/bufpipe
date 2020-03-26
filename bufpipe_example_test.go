@@ -4,7 +4,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/acomagu/bufpipe"
+	"github.com/jschwinger23/bufpipe"
 )
 
 func Example() {

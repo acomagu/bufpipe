@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/acomagu/bufpipe"
+	"github.com/jschwinger23/bufpipe"
 	"github.com/matryer/is"
 )
 
