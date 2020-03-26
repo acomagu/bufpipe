@@ -13,6 +13,8 @@ var ErrClosedPipe = errors.New("bufpipe: read/write on closed pipe")
 type pipe struct {
 	cond       *sync.Cond
 	buf        *bytes.Buffer
+	cap        int64
+	length     int64
 	rerr, werr error
 }
 
@@ -40,10 +42,13 @@ type PipeWriter struct {
 // this call. New is intended to prepare a PipeReader to read existing data. It
 // can also be used to set the initial size of the internal buffer for writing.
 // To do that, buf should have the desired capacity but a length of zero.
-func New(buf []byte) (*PipeReader, *PipeWriter) {
+// bufCap sets upper bound to the size of buffer, messages to be discarded once
+// reach limit
+func New(buf []byte, bufCap int64) (*PipeReader, *PipeWriter) {
 	p := &pipe{
 		buf:  bytes.NewBuffer(buf),
 		cond: sync.NewCond(new(sync.Mutex)),
+		cap:  bufCap,
 	}
 	return &PipeReader{
 			pipe: p,
@@ -66,6 +71,10 @@ RETRY:
 	if err == io.EOF && r.rerr == nil && n == 0 {
 		r.cond.Wait()
 		goto RETRY
+	}
+	// io.Reader requires to always handle n > 0
+	if n > 0 {
+		r.length -= int64(n)
 	}
 	if err == io.EOF {
 		return n, r.rerr
@@ -103,7 +112,15 @@ func (w *PipeWriter) Write(data []byte) (int, error) {
 		return 0, w.werr
 	}
 
+	// discard
+	if w.length > w.cap {
+		return 0, nil
+	}
 	n, err := w.buf.Write(data)
+	// io.Writer stipulates n < 0 if err != nil
+	if n > 0 {
+		w.length += int64(n)
+	}
 	w.cond.Signal()
 	return n, err
 }
