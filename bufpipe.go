@@ -114,7 +114,7 @@ func (w *PipeWriter) Write(data []byte) (int, error) {
 
 	// discard
 	if w.length > w.cap {
-		return 0, nil
+		return len(data), nil
 	}
 	n, err := w.buf.Write(data)
 	// io.Writer stipulates n < 0 if err != nil
