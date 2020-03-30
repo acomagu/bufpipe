@@ -15,7 +15,7 @@ import (
 func TestPipeWriter_NoBlocking(t *testing.T) {
 	is := is.New(t)
 
-	r, w := bufpipe.New(nil)
+	r, w := bufpipe.New(nil, 10000)
 	io.WriteString(w, "abc")
 	io.WriteString(w, "def")
 	w.Close()
@@ -36,7 +36,7 @@ func TestMultiBlocking(t *testing.T) {
 		results <- b[:n]
 	}
 
-	r, w := bufpipe.New(nil)
+	r, w := bufpipe.New(nil, 10000)
 	go block(r)
 	go block(r)
 	go block(r)
@@ -61,7 +61,7 @@ func TestMultiBlocking(t *testing.T) {
 func TestPipeWriter_Close(t *testing.T) {
 	is := is.New(t)
 
-	r, w := bufpipe.New([]byte("abc"))
+	r, w := bufpipe.New([]byte("abc"), 10000)
 	n, err := w.Write([]byte("def"))
 	is.NoErr(err)
 	is.Equal(n, 3)
@@ -84,7 +84,7 @@ func TestPipeWriter_Close(t *testing.T) {
 func TestPipeWriter_CloseWithError(t *testing.T) {
 	is := is.New(t)
 
-	r, w := bufpipe.New([]byte("abc"))
+	r, w := bufpipe.New([]byte("abc"), 10000)
 	n, err := w.Write([]byte("def"))
 	is.NoErr(err)
 	is.Equal(n, 3)
@@ -108,7 +108,7 @@ func TestPipeWriter_CloseWithError(t *testing.T) {
 func TestPipeReader_Close(t *testing.T) {
 	is := is.New(t)
 
-	r, w := bufpipe.New([]byte("abc"))
+	r, w := bufpipe.New([]byte("abc"), 10000)
 	is.NoErr(r.Close())
 
 	n, err := w.Write([]byte("abc"))
@@ -121,7 +121,7 @@ func TestPipeReader_CloseWithError(t *testing.T) {
 
 	expect := fmt.Errorf("original error")
 
-	r, w := bufpipe.New([]byte("abc"))
+	r, w := bufpipe.New([]byte("abc"), 10000)
 	is.NoErr(r.CloseWithError(expect))
 
 	n, err := w.Write([]byte("abc"))

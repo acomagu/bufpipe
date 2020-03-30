@@ -8,7 +8,7 @@ import (
 )
 
 func Example() {
-	r, w := bufpipe.New(nil)
+	r, w := bufpipe.New(nil, 10000)
 
 	done := make(chan struct{})
 	go func() {
