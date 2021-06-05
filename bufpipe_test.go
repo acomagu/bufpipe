@@ -128,3 +128,20 @@ func TestPipeReader_CloseWithError(t *testing.T) {
 	is.Equal(err, expect)
 	is.Equal(n, 0)
 }
+
+func TestPipeReader_WriterCloseNoDeadlock(t *testing.T) {
+	r, w := bufpipe.New(nil)
+
+	done := make(chan struct{})
+	go func(t *testing.T) {
+		buf := make([]byte, 800)
+		r.Read(buf)
+		done <- struct{}{}
+	}(t)
+
+	time.Sleep(300 * time.Millisecond)
+	w.Close()
+
+	<-done
+}
+
