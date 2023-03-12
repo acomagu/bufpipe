@@ -1,6 +1,6 @@
 # bufpipe: Buffered Pipe
 
-[![CircleCI](https://img.shields.io/circleci/build/github/acomagu/bufpipe.svg?style=flat-square)](https://circleci.com/gh/acomagu/bufpipe) [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/acomagu/bufpipe)
+[![CircleCI](https://img.shields.io/github/actions/workflow/status/acomagu/bufpipe/main.yml.svg?style=flat-square)](https://github.com/acomagu/bufpipe/actions/workflows/main.yml) [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/acomagu/bufpipe)
 
 The buffered version of io.Pipe. It's safe for concurrent use.
 
